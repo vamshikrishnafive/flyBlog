@@ -1,0 +1,56 @@
+
+
+@layout('layouts.app')
+
+@section('content')
+<!-- Page Header -->
+  <header class="masthead" style="background-image: url('/img/contact-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Create your Account</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+<!--input form container -->
+  <div class="container">
+      <div class="row">
+          <div class="col-md-8 offset-md-2">
+            @if(errors.length > 0)
+            <ul class="list-group">
+              @each(error in errors)
+            <li class="list-group-item text-danger"> {{ error }}</li>
+            @endeach
+            </ul>
+            @endif
+              <form action='/user/register' method="POST">
+                <div class="control-group">
+                  <div class="form-group floating-label-form-group controld">
+                      <label>Username</label>
+                  <input type="text" placeholder="username" value="{{data.username || '' }}" name="username" class="form-control">
+                  </div>
+                </div>
+                  <div class="control-group">
+                      <div class="form-group floating-label-form-group controld">
+                          <label>Email</label>
+                              <input type="email" placeholder="Email" value="{{data.email || '' }}" name="email" class="form-control">
+                      </div>
+                  </div>
+                  <div class="control-group">
+                    <div class="form-group floating-label-form-group controld">
+                        <label>Password</label>
+                            <input type="password" placeholder="Password@1256" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+          </div>
+      </div>
+  </div>
+@endsection

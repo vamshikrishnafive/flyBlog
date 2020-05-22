@@ -1,0 +1,43 @@
+
+
+@layout('layouts.app')
+
+@section('content')
+<!-- Page Header -->
+  <header class="masthead" style="background-image: url('/img/contact-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Login</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+<!--input form container -->
+  <div class="container">
+      <div class="row">
+          <div class="col-md-8 offset-md-2">
+              <form action='/user/login' method="POST">
+                <div class="control-group">
+                  <div class="form-group floating-label-form-group controld">
+                      <label>Email</label>
+                          <input type="email" placeholder="Email" name="email" class="form-control">
+                  </div>
+                </div>
+                  <div class="control-group">
+                    <div class="form-group floating-label-form-group controld">
+                        <label>Password</label>
+                            <input type="password" placeholder="Password@1256" name="password" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group text-center">
+                    <button class="btn btn-primary">Login</button>
+                </div>
+              </form>
+          </div>
+      </div>
+  </div>
+@endsection
