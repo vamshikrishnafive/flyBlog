@@ -6,22 +6,14 @@ const expressEdge = require('express-edge')
 const expressSession = require('express-session')
 const connectmongo = require('connect-mongo')
 const connectFlash = require('connect-flash')
+const dotenv = require("dotenv")
+dotenv.config();
 
-//controller's
-const createPostController = require('./controllers/createPost')
-const homePageController = require('./controllers/homePage')
-const logoutcontroller = require('./controllers/logout')
-const storePostController = require('./controllers/storePost')
-const getPostController = require('./controllers/getPost')
-const createUserController = require('./controllers/createUser')
-const stroeUserController = require('./controllers/storeUser')
-const logincontroller = require('./controllers/login')
-const loginUserController = require('./controllers/loginUser')
-
-//middleware's
+//incoming
 const storePost = require('./middleware/storePost')
-const auth = require('./middleware/auth')
-const redirectIfAuthenticted = require('./middleware/redirectIfAuthenticated')
+const postRoute = require('./routes/post')
+const userRoute = require('./routes/user')
+const authRoute = require('./routes/auth')
 
 //main
 const app = new express()
@@ -37,37 +29,31 @@ app.use(expressSession({
     })
 }))
 
-mongoose.connect('mongodb://localhost/blog-post-node', {
+mongoose.connect(process.env.MONGODB_URI, {
     useUnifiedTopology: true, 
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex:true
 }).then(console.log("connected to DataBase"))
 
 app.use(express.static('public'))
 app.use(expressEdge.engine)
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
-app.use('/posts/store',storePost)
-
-app.set('views',`${__dirname}/views`)
-
-app.use('*',(req,res,next) => {
+app.use('*', (req,res,next) => {
     edge.global('auth',req.session.userId)
     next()
 })
+app.set('views',`${__dirname}/views`)
 
 //routing
-app.get('/', homePageController)
-app.get('/post/:id', getPostController)
-app.get('/posts/new', auth, createPostController)
-app.get('/auth/logout',auth,logoutcontroller)
-app.post('/posts/store',auth, storePost,storePostController)
-app.get('/auth/login',redirectIfAuthenticted,logincontroller)
-app.post('/user/login',redirectIfAuthenticted,loginUserController)
-app.post('/user/register', redirectIfAuthenticted, stroeUserController)
-app.get('/auth/register',redirectIfAuthenticted, createUserController)
-app.get((req,res) => res.render('pageNotFound'))
+app.use('/posts/store',storePost)
+app.use('/', postRoute)
+app.use('/', userRoute)
+app.use('/', authRoute)
 
 
-app.listen(3000,
-    console.log("server is started")
+//sever
+const PORT = process.env.PORT || 4001; //AFAGPn4p32EK61rq
+app.listen(PORT, 
+    console.log(`server is started ${PORT}`)
 )
