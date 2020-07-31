@@ -65,6 +65,6 @@ app.get('/auth/register',redirectIfAuthenticted, createUserController)
 app.get((req,res) => res.render('pageNotFound'))
 
 
-app.listen(2013,
+app.listen(3000,
     console.log("server is started")
 )
