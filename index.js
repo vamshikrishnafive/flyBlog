@@ -37,7 +37,10 @@ app.use(expressSession({
     })
 }))
 
-mongoose.connect('mongodb://localhost/blog-post-node', {useUnifiedTopology: true, useNewUrlParser: true})
+mongoose.connect('mongodb://localhost/blog-post-node', {
+    useUnifiedTopology: true, 
+    useNewUrlParser: true
+}).then(console.log("connected to DataBase"))
 
 app.use(express.static('public'))
 app.use(expressEdge.engine)
