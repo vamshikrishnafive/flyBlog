@@ -43,14 +43,16 @@ app.use('*', (req,res,next) => {
     edge.global('auth',req.session.userId)
     next()
 })
+
+if(process.env.NODE_ENV === "production"){
 app.set('views',`${__dirname}/views`)
+}
 
 //routing
 app.use('/posts/store',storePost)
 app.use('/', postRoute)
 app.use('/', userRoute)
 app.use('/', authRoute)
-
 
 //sever
 const PORT = process.env.PORT || 4001; //AFAGPn4p32EK61rq
