@@ -24,38 +24,38 @@ app.use(expressSession({
     resave: true,
     saveUninitialized: true,
     secret: 'secret',
-    store : new mongoStore({
-        mongooseConnection:mongoose.connection
+    store: new mongoStore({
+        mongooseConnection: mongoose.connection
     })
 }))
 
 mongoose.connect(process.env.MONGODB_URI, {
-    useUnifiedTopology: true, 
+    useUnifiedTopology: true,
     useNewUrlParser: true,
-    useCreateIndex:true
+    useCreateIndex: true
 }).then(console.log("connected to DataBase"))
 
 app.use(express.static('public'))
 app.use(expressEdge.engine)
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
-app.use('*', (req,res,next) => {
-    edge.global('auth',req.session.userId)
+app.use(express.urlencoded({ extended: true }))
+app.use('*', (req, res, next) => {
+    edge.global('auth', req.session.userId)
     next()
 })
 
-if(process.env.NODE_ENV === "production"){
-app.set('views',`${__dirname}/views`)
+if (process.env.NODE_ENV === "production") {
+    app.set('views', `${__dirname}/views`)
 }
 
 //routing
-app.use('/posts/store',storePost)
+app.use('/posts/store', storePost)
 app.use('/', postRoute)
 app.use('/', userRoute)
 app.use('/', authRoute)
 
 //sever
-const PORT = process.env.PORT || 4001; //AFAGPn4p32EK61rq
-app.listen(PORT, 
+const PORT = process.env.PORT || 4001;
+app.listen(PORT,
     console.log(`server is started ${PORT}`)
 )
