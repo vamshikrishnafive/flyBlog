@@ -14,6 +14,6 @@ const auth = require('../middleware/auth')
 router.get('/', homePageController)
 router.get('/posts/new', auth, createPostController)
 router.post('/posts/store',auth, storePost,storePostController)
-router.get('/post/:id', getPostController)
+router.get('/post/', getPostController)
 
 module.exports = router;
